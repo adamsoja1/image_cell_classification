@@ -2,3 +2,11 @@ cells_final/
 cells_final*
 .virtual*
 .ipynb_*
+
+/*_data*/
+*_data*/
+
+/data*/
+data_/
+
+__pycache__/
