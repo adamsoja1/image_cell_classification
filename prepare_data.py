@@ -54,14 +54,12 @@ if len(os.listdir('data_without_test')) > 0:
 for data, cls in zip(dataset, classes):
     save_images(data, 'data_without_test', cls)
 
-
 dataset_train, dataset_validation = split_data(path='data_without_test', train_size=0.7)
-
 
 if len(os.listdir('train_data')) > 0: 
     for file in os.listdir('train_data'):
         os.remove(f'train_data/{file}')
-        
+
 for data, cls in zip(dataset_train, classes):
     save_images(data, 'train_data', cls)
 
@@ -71,3 +69,4 @@ if len(os.listdir('validation_data')) > 0:
 
 for data, cls in zip(dataset_validation, classes): 
     save_images(data, 'validation_data', cls)
+

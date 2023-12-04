@@ -4,6 +4,7 @@ Functions and tools for further analysis, implemenation etc.
 import os
 import glob
 import random
+import cv2
 random.seed(0)
 
 def get_images_list(path):
@@ -40,3 +41,17 @@ def split_data(path, train_size):
     dataset_validation = [validation_inflamatory, validation_normal, validation_tumor, validation_other]
     return dataset_train, dataset_validation
 
+def transform_target(target):
+    if target == 'inflamatory':
+        return [1, 0, 0, 0]
+    elif target == 'normal':
+        return [0, 1, 0, 0]
+    elif target == 'tumor':
+        return [0, 0, 1, 0]
+    elif target == 'other':
+        return [0, 0, 0, 1]
+    
+
+def transform_image(image):
+    image = cv2.resize(image, (32, 32))
+    return image
