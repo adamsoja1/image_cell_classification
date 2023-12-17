@@ -12,3 +12,4 @@ data_/
 __pycache__/
 
 playground.ipynb
+*.bin

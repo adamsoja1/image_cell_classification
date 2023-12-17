@@ -4,6 +4,9 @@ from torch.utils.data import Dataset, DataLoader
 from utils_cells import get_images_list, transform_image, transform_target
 import matplotlib.pyplot as plt
 from sklearn.utils import shuffle
+import numpy as np
+import torchvision.transforms.functional as F
+import torch
 
 class ImageDataset(Dataset):
     def __init__(self, data_path, transform=None, target_transform=None):
@@ -31,9 +34,22 @@ class ImageDataset(Dataset):
     def __getitem__(self, idx):
         image = plt.imread(f'{self.dataset["filename"].loc[idx]}')
         image = self.transform(image) if self.transform is not None else image
-        target = self.target_transform(self.dataset['class'][idx]) if self.target_transform is not None else self.dataset['class'][idx]
+        target = self.dataset["class"].loc[idx]
+        if target == 'inflamatory.':
+            target_ = [1, 0, 0, 0]
+        elif target == 'normal.':
+            target_ = [0, 1, 0, 0]
+        elif target == 'other.':
+            target_ = [0, 0, 1, 0]
+        elif target == 'tumor.':
+            target_ = [0, 0, 0, 1]
+        
+        image = image/image.max()
+        image = F.to_tensor(image)
+        image = F.resize(image, (32, 32))
 
-        return image, target
+
+        return image, np.array(target_, dtype=np.float32)
 
 
 
