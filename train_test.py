@@ -95,7 +95,7 @@ for epoch in range(20):
             sys.stdout.write("\r" + progress_message)
             sys.stdout.flush()
 
-
+        
         recall.append(recall_per_class)
         precision.append(precision_per_class)
         

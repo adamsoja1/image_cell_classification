@@ -1,8 +1,8 @@
 import torch.nn as nn
 
-from patch_embed import EmbeddingStem
-from transformer import Transformer
-from modules import OutputLayer
+from .patch_embed import EmbeddingStem
+from .transformer import Transformer
+from .modules import OutputLayer
 
 
 class VisionTransformer(nn.Module):

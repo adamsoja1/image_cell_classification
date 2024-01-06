@@ -7,6 +7,10 @@ from sklearn.utils import shuffle
 import numpy as np
 import torchvision.transforms.functional as F
 import torch
+from torchvision import transforms
+from torchvision.transforms import functional as F
+
+
 
 class ImageDataset(Dataset):
     def __init__(self, data_path, transform=None, target_transform=None):
@@ -33,8 +37,11 @@ class ImageDataset(Dataset):
     
     def __getitem__(self, idx):
         image = plt.imread(f'{self.dataset["filename"].loc[idx]}')
-        image = self.transform(image) if self.transform is not None else image
+        image = image/image.max()
+        image = self.transform(image = image)['image'] if self.transform is not None else image
+
         target = self.dataset["class"].loc[idx]
+
         if target == 'inflamatory.':
             target_ = [1, 0, 0, 0]
         elif target == 'normal.':
@@ -43,17 +50,23 @@ class ImageDataset(Dataset):
             target_ = [0, 0, 1, 0]
         elif target == 'tumor.':
             target_ = [0, 0, 0, 1]
+        else:
+            print(target)
         
-        image = image/image.max()
         image = F.to_tensor(image)
-        image = F.resize(image, (32, 32))
+        
+        if self.transform is None:
+            image = F.resize(image, (32, 32))
+     
 
+        """To see transorms use:
+            image, target = trainset[15]
+            image = image.numpy()
+            image=np.swapaxes(image,0,1)
+            image=np.swapaxes(image,1,2)
+            plt.imshow(image)"""
 
-        return image, np.array(target_, dtype=np.float32)
-
-
-
-
+        return image, torch.Tensor(np.array(target_, dtype=np.float32))
 
 
 
