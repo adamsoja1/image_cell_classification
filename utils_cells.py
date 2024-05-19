@@ -11,6 +11,24 @@ import numpy as np
 
 random.seed(0)
 
+
+
+from PIL import Image
+import cv2
+
+def resize_with_padding(image, new_size):    
+    original_height, original_width = image.shape[:2]
+    ratio = min(new_size[0] / original_width, new_size[1] / original_height)
+    new_width = int(original_width * ratio)
+    new_height = int(original_height * ratio)
+    resized_image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+    canvas = np.full((new_size[1], new_size[0], 3), 255, dtype=np.uint8)
+    x_offset = (new_size[0] - new_width) // 2
+    y_offset = (new_size[1] - new_height) // 2
+    canvas[y_offset:y_offset+new_height, x_offset:x_offset+new_width] = resized_image
+    
+    return canvas
+
 def get_images_list(path):
     """Reads list of images from a txt file."""
     file = open(path, 'r')
