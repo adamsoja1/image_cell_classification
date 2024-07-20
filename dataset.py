@@ -10,6 +10,7 @@ import torch
 from torchvision import transforms
 from torchvision.transforms import functional as F
 import cv2
+from sklearn.model_selection import train_test_split
 
 
 class ImageDataset(Dataset):
@@ -19,7 +20,7 @@ class ImageDataset(Dataset):
         self.dataset = shuffle(self.load_dataset(data_path))
         if reduce:
             self.__remove_small_images()
-
+            #self.dataset = self.dataset.reset_index()
     def load_dataset(self, path):
         files = os.listdir(path)
         dataset_final = pd.DataFrame()
@@ -40,7 +41,7 @@ class ImageDataset(Dataset):
     def __remove_small_images(self):
         for i in range(len(self.dataset)-1):
             image = cv2.imread(f'{self.dataset["filename"].loc[i]}')
-            if image.shape[0] < 10 or image.shape[1] < 10:
+            if image.shape[0] < 12 or image.shape[1] < 12:
                 self.dataset = self.dataset.drop(i)
         self.dataset = self.dataset.reset_index()
     
@@ -48,7 +49,7 @@ class ImageDataset(Dataset):
         image = cv2.imread(f'{self.dataset["filename"].loc[idx]}')
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         #image = cv2.resize(image, (32, 32), interpolation=cv2.INTER_CUBIC)
-        image = resize_with_padding(image, (32,32))
+        image = resize_with_padding(image, (32, 32))
         image = image.astype(np.float32)
         image = self.transform(image = image)['image'] if self.transform is not None else image
 

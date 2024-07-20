@@ -36,7 +36,7 @@ playground.ipynb
 /wandb
 wandb
 *.sqlite3
-
+*.csv
 /lightning_logs
 lightning_logs
 lightning_logs/
