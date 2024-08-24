@@ -9,8 +9,11 @@ cells_final*
 /data*/
 data_/
 
-__pycache__/
 
+training_checkpoints
+
+__pycache__/
+*.npy
 playground.ipynb
 *.bin
 

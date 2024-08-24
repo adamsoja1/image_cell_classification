@@ -49,7 +49,7 @@ class ImageDataset(Dataset):
         image = cv2.imread(f'{self.dataset["filename"].loc[idx]}')
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         #image = cv2.resize(image, (32, 32), interpolation=cv2.INTER_CUBIC)
-        image = resize_with_padding(image, (32, 32))
+        image = resize_with_padding(image, (42, 42))
         image = image.astype(np.float32)
         image = self.transform(image = image)['image'] if self.transform is not None else image
 
